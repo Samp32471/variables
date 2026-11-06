@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Exam: Variables, Functions, Arrays, Objects (65 MCQs + 8 Practicals)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+    body {
+      background: #0b1a2e;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .exam-container {
+      max-width: 1200px;
+      width: 100%;
+      background: #f8faff;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .exam-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 3px solid #cfdfff;
+      padding-bottom: 16px;
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #0e2a4a;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+    .timer-section {
+      background: #1e3a5f;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 60px;
+      font-size: 2rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      box-shadow: inset 0 -3px 0 #0b1f32;
+      letter-spacing: 2px;
+    }
+    .timer-section.warning {
+      background: #b34141;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      color: #3b4e6b;
+      font-weight: 500;
+      background: #e4edff;
+      padding: 8px 16px;
+      border-radius: 100px;
+    }
+    .question-area {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 70vh;
+      padding-right: 8px;
+    }
+    .question-card {
+      background: white;
+      border-radius: 20px;
+      padding: 22px 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 6px 14px rgba(0, 20, 40, 0.08);
+      border: 1px solid #d9e6ff;
+    }
+    .question-card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #0e2a4a;
+      font-size: 1.25rem;
+      font-weight: 600;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .badge {
+      background: #1e3a5f;
+      color: white;
+      border-radius: 40px;
+      padding: 2px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge.practical {
+      background: #0f6b4b;
+    }
+    pre {
+      background: #0f1e2f;
+      color: #d4e6ff;
+      padding: 16px 18px;
+      border-radius: 14px;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 14px 0;
+      border-left: 5px solid #3b82f6;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f2f7ff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1.5px solid transparent;
+    }
+    .option:hover {
+      background: #e1ecff;
+      border-color: #a0c0ff;
+    }
+    .option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #1e3a5f;
+      cursor: pointer;
+      margin: 0;
+    }
+    .option label {
+      font-size: 1rem;
+      color: #152c44;
+      cursor: pointer;
+      flex: 1;
+      font-family: 'Fira Code', monospace;
+    }
+    .practical-card {
+      background: #f0f7f2;
+      border-left: 6px solid #0f6b4b;
+    }
+    .code-editor {
+      width: 100%;
+      min-height: 90px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1.5px solid #b0c8e0;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      resize: vertical;
+      background: #ffffff;
+      color: #0b1e2e;
+    }
+    .code-editor:focus {
+      outline: 2px solid #1e3a5f;
+      border-color: transparent;
+    }
+    .practical-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-sm {
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 2px 0 #0b1f32;
+    }
+    .btn-sm:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 #0b1f32;
+    }
+    .test-result {
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 6px 14px;
+      border-radius: 40px;
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    .test-result.pass {
+      background: #bbf7d0;
+      color: #065f46;
+    }
+    .test-result.fail {
+      background: #fecaca;
+      color: #991b1b;
+    }
+    .footer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      border-top: 2px solid #cfdfff;
+      padding-top: 18px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 0 #0b1f32;
+      transform: translateY(0);
+    }
+    .btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #0b1f32;
+    }
+    .btn:disabled {
+      opacity: 0.4;
+      transform: translateY(0);
+      box-shadow: 0 4px 0 #0b1f32;
+      pointer-events: none;
+    }
+    .btn-secondary {
+      background: #5478a8;
+      box-shadow: 0 4px 0 #2e4663;
+    }
+    .score-display {
+      font-weight: 700;
+      color: #0e2a4a;
+      background: #d9e9ff;
+      padding: 8px 24px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+    }
+    .anti-cheat-alert {
+      background: #b91c1c;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      display: none;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
+      animation: flash 0.5s 2;
+    }
+    @keyframes flash {
+      0% { background: #b91c1c; }
+      50% { background: #dc2626; }
+      100% { background: #b91c1c; }
+    }
+    .fullscreen-warning {
+      background: #fef9c3;
+      color: #854d0e;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: inline-block;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .result-panel {
+      background: #d9f0e8;
+      padding: 20px;
+      border-radius: 20px;
+      margin-top: 8px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0b3d2e;
+    }
+    .q-counter {
+      font-size: 0.85rem;
+      color: #5478a8;
+      font-weight: 600;
+    }
+
+    /* ===== LOGIN PAGE ===== */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #0b1a2e 0%, #1a3a5e 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .login-card {
+      background: #f8faff;
+      border-radius: 36px;
+      padding: 44px 42px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.7);
+    }
+    .login-card h2 {
+      margin: 0 0 8px 0;
+      color: #0e2a4a;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      text-align: center;
+    }
+    .login-card .subtitle {
+      text-align: center;
+      color: #5478a8;
+      margin: 0 0 26px 0;
+      font-size: 0.95rem;
+    }
+    .login-card label {
+      display: block;
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+    .login-card input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1.5px solid #b0c8e0;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      outline: none;
+      transition: border 0.15s;
+      font-family: inherit;
+    }
+    .login-card input:focus {
+      border-color: #1e3a5f;
+      box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.15);
+    }
+    .login-card .btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.05rem;
+      margin-top: 6px;
+    }
+    .login-error {
+      background: #fecaca;
+      color: #991b1b;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .login-info {
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: #7a8ea8;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .login-info strong {
+      color: #1e3a5f;
+    }
+    .submit-status {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1e3a5f;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== LOGIN OVERLAY ========== -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <h2>🔐 Exam Login</h2>
+    <p class="subtitle">JavaScript Fundamentals — 2 Hour Exam</p>
+    <div class="login-error" id="loginError">Please enter a valid name and email.</div>
+    <label for="loginName">Full Name</label>
+    <input type="text" id="loginName" placeholder="e.g. Alex Johnson" autocomplete="off">
+    <label for="loginEmail">Email Address</label>
+    <input type="email" id="loginEmail" placeholder="e.g. alex@example.com" autocomplete="off">
+    <button class="btn" id="loginBtn" type="button">Start Exam →</button>
+    <div class="login-info">
+      <strong>Rules:</strong> 2 hours total • 65 MCQs (1 pt each) + 8 Practicals (3 pts each)<br>
+      Anti-cheat is active. Do not switch tabs or copy/paste.
+    </div>
+  </div>
+</div>
+
+<!-- ========== EXAM CONTAINER ========== -->
+<div class="exam-container hidden" id="examContainer">
+  <div class="exam-header">
+    <h1>📘 JS Fundamentals Exam</h1>
+    <div class="timer-section" id="timerDisplay">02:00:00</div>
+  </div>
+  <div class="status-bar">
+    <span>⏳ Variables • Functions • Arrays • Objects • 65 MCQs + 8 Practicals</span>
+    <span id="antiCheatStatus" class="fullscreen-warning">🔒 Anti‑cheat active</span>
+  </div>
+  <div id="antiCheatAlert" class="anti-cheat-alert">⚠️ Anti-cheat violation detected! Stay on this tab.</div>
+
+  <div class="question-area" id="questionArea">
+    <!-- MCQ SECTION HEADER -->
+    <div style="margin-bottom: 8px; font-weight: 600; color: #1e3a5f;">📝 Part A — Multiple Choice (65 questions, 1 point each)</div>
+
+    <!-- ===== Q1 ===== -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q1</span></h3>
+      <p>What is the output of the following code?</p>
+      <pre>let x = 10;
+{
+  let x = 20;
+  console.log(x);
+}
+console.log(x);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="A"> <label>A) 20 then 10</label></label>
+        <label class="option"><input type="radio" name="q1" value="B"> <label>B) 10 then 20</label></label>
+        <label class="option"><input type="radio" name="q1" value="C"> <label>C) 20 then 20</label></label>
+        <label class="option"><input type="radio" name="q1" value="D"> <label>D) 10 then 10</label></label>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q2</span></h3>
+      <p>Which statement about arrow functions is <strong>true</strong>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="A"> <label>A) They have their own <code>this</code> binding.</label></label>
+        <label class="option"><input type="radio" name="q2" value="B"> <label>B) They cannot be used as constructors.</label></label>
+        <label class="option"><input type="radio" name="q2" value="C"> <label>C) They can use the <code>arguments</code> object.</label></label>
+        <label class="option"><input type="radio" name="q2" value="D"> <label>D) They must always return a value.</label></label>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q3</span></h3>
+      <p>What does the following code return?</p>
+      <pre>const arr = [1, 2, 3, 4];
+const result = arr.filter(n => n % 2 === 0).map(n => n * 2);
+console.log(result);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="A"> <label>A) [2, 4]</label></label>
+        <label class="option"><input type="radio" name="q3" value="B"> <label>B) [4, 8]</label></label>
+        <label class="option"><input type="radio" name="q3" value="C"> <label>C) [2, 6]</label></label>
+        <label class="option"><input type="radio" name="q3" value="D"> <label>D) [1, 3]</label></label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q4</span></h3>
+      <p>What is the result of the following?</p>
+      <pre>const obj = { a: 1, b: 2 };
+const { a, ...rest } = obj;
+console.log(a, rest);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="A"> <label>A) 1 { b: 2 }</label></label>
+        <label class="option"><input type="radio" name="q4" value="B"> <label>B) 1 { a: 1, b: 2 }</label></label>
+        <label class="option"><input type="radio" name="q4" value="C"> <label>C) undefined { b: 2 }</label></label>
+        <label class="option"><input type="radio" name="q4" value="D"> <label>D) 1 { a: undefined, b: 2 }</label></label>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q5</span></h3>
+      <p>What will be logged?</p>
+      <pre>function test() {
+  console.log(typeof arguments);
+}
+test(1, 2, 3);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="A"> <label>A) "array"</label></label>
+        <label class="option"><input type="radio" name="q5" value="B"> <label>B) "object"</label></label>
+        <label class="option"><input type="radio" name="q5" value="C"> <label>C) "arguments"</label></label>
+        <label class="option"><input type="radio" name="q5" value="D"> <label>D) "undefined"</label></label>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q6</span></h3>
+      <p>Which variable declaration is <strong>hoisted</strong> and initialized with <code>undefined</code>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q6" value="A"> <label>A) <code>let</code></label></label>
+        <label class="option"><input type="radio" name="q6" value="B"> <label>B) <code>const</code></label></label>
+        <label class="option"><input type="radio" name="q6" value="C"> <label>C) <code>var</code></label></label>
+        <label class="option"><input type="radio" name="q6" value="D"> <label>D) None of the above</label></label>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q7</span></h3>
+      <p>What is the output of this code?</p>
+      <pre>function outer() {
+  let count = 0;
+  return function() {
+    count++;
+    return count;
+  };
+}
+const inc = outer();
+console.log(inc(), inc(), inc());</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q7" value="A"> <label>A) 1 2 3</label></label>
+        <label class="option"><input type="radio" name="q7" value="B"> <label>B) 1 1 1</label></label>
+        <label class="option"><input type="radio" name="q7" value="C"> <label>C) 0 0 0</label></label>
+        <label class="option"><input type="radio" name="q7" value="D"> <label>D) 3 3 3</label></label>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q8</span></h3>
+      <p>Which method mutates the original array?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q8" value="A"> <label>A) <code>map()</code></label></label>
+        <label class="option"><input type="radio" name="q8" value="B"> <label>B) <code>filter()</code></label></label>
+        <label class="option"><input type="radio" name="q8" value="C"> <label>C) <code>slice()</code></label></label>
+        <label class="option"><input type="radio" name="q8" value="D"> <label>D) <code>splice()</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q9</span></h3>
+      <p>How do you check if a property <code>key</code> exists in an object <code>obj</code>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q9" value="A"> <label>A) <code>obj.hasOwnProperty('key')</code></label></label>
+        <label class="option"><input type="radio" name="q9" value="B"> <label>B) <code>'key' in obj</code></label></label>
+        <label class="option"><input type="radio" name="q9" value="C"> <label>C) <code>obj.key !== undefined</code></label></label>
+        <label class="option"><input type="radio" name="q9" value="D"> <label>D) All of the above</label></label>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q10</span></h3>
+      <p>What does <code>Array.prototype.reduce()</code> return if no initial value is provided?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q10" value="A"> <label>A) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q10" value="B"> <label>B) The first element</label></label>
+        <label class="option"><input type="radio" name="q10" value="C"> <label>C) An error if the array is empty</label></label>
+        <label class="option"><input type="radio" name="q10" value="D"> <label>D) The last element</label></label>
+      </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q11</span></h3>
+      <p>What is the result of <code>console.log(typeof null);</code>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q11" value="A"> <label>A) <code>"null"</code></label></label>
+        <label class="option"><input type="radio" name="q11" value="B"> <label>B) <code>"object"</code></label></label>
+        <label class="option"><input type="radio" name="q11" value="C"> <label>C) <code>"undefined"</code></label></label>
+        <label class="option"><input type="radio" name="q11" value="D"> <label>D) <code>"boolean"</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q12</span></h3>
+      <p>What is the output?</p>
+      <pre>const arr = [1, 2, 3];
+arr.length = 1;
+console.log(arr);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q12" value="A"> <label>A) [1, 2, 3]</label></label>
+        <label class="option"><input type="radio" name="q12" value="B"> <label>B) [1]</label></label>
+        <label class="option"><input type="radio" name="q12" value="C"> <label>C) [1, 2]</label></label>
+        <label class="option"><input type="radio" name="q12" value="D"> <label>D) [3]</label></label>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q13</span></h3>
+      <p>Which of the following creates a deep copy of an object?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q13" value="A"> <label>A) <code>Object.assign({}, obj)</code></label></label>
+        <label class="option"><input type="radio" name="q13" value="B"> <label>B) <code>{ ...obj }</code></label></label>
+        <label class="option"><input type="radio" name="q13" value="C"> <label>C) <code>JSON.parse(JSON.stringify(obj))</code></label></label>
+        <label class="option"><input type="radio" name="q13" value="D"> <label>D) None of the above</label></label>
+      </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q14</span></h3>
+      <p>What is a <strong>pure function</strong>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q14" value="A"> <label>A) A function that has no side effects and returns the same output for the same input.</label></label>
+        <label class="option"><input type="radio" name="q14" value="B"> <label>B) A function that always returns <code>undefined</code>.</label></label>
+        <label class="option"><input type="radio" name="q14" value="C"> <label>C) A function that modifies global state.</label></label>
+        <label class="option"><input type="radio" name="q14" value="D"> <label>D) A function declared with <code>function</code> keyword only.</label></label>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q15</span></h3>
+      <p>What is the result of the following expression?</p>
+      <pre>const obj = { a: 1, b: 2 };
+const arr = [10, 20];
+const [x, y] = arr;
+const { a } = obj;
+console.log(x + y + a);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q15" value="A"> <label>A) 31</label></label>
+        <label class="option"><input type="radio" name="q15" value="B"> <label>B) 30</label></label>
+        <label class="option"><input type="radio" name="q15" value="C"> <label>C) 21</label></label>
+        <label class="option"><input type="radio" name="q15" value="D"> <label>D) 11</label></label>
+      </div>
+    </div>
+
+    <!-- ===== NEW 50 MCQs (Q16–Q65) ===== -->
+
+    <!-- Q16 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q16</span></h3>
+      <p>What will be printed?</p>
+      <pre>console.log(a);
+var a = 5;</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q16" value="A"> <label>A) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q16" value="B"> <label>B) <code>5</code></label></label>
+        <label class="option"><input type="radio" name="q16" value="C"> <label>C) ReferenceError</label></label>
+        <label class="option"><input type="radio" name="q16" value="D"> <label>D) <code>null</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q17</span></h3>
+      <p>Which keyword creates a block-scoped variable?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q17" value="A"> <label>A) <code>var</code></label></label>
+        <label class="option"><input type="radio" name="q17" value="B"> <label>B) <code>let</code></label></label>
+        <label class="option"><input type="radio" name="q17" value="C"> <label>C) <code>function</code></label></label>
+        <label class="option"><input type="radio" name="q17" value="D"> <label>D) <code>global</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q18</span></h3>
+      <p>What is the output?</p>
+      <pre>const x = 5;
+x = 10;
+console.log(x);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q18" value="A"> <label>A) 10</label></label>
+        <label class="option"><input type="radio" name="q18" value="B"> <label>B) 5</label></label>
+        <label class="option"><input type="radio" name="q18" value="C"> <label>C) TypeError</label></label>
+        <label class="option"><input type="radio" name="q18" value="D"> <label>D) <code>undefined</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q19</span></h3>
+      <p>What is the temporal dead zone?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q19" value="A"> <label>A) The time between <code>let</code> declaration and initialization.</label></label>
+        <label class="option"><input type="radio" name="q19" value="B"> <label>B) A period when <code>var</code> is hoisted.</label></label>
+        <label class="option"><input type="radio" name="q19" value="C"> <label>C) The global scope of a function.</label></label>
+        <label class="option"><input type="radio" name="q19" value="D"> <label>D) A runtime error caused by <code>const</code>.</label></label>
+      </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q20</span></h3>
+      <p>What will this output?</p>
+      <pre>function sayHi() {
+  return "Hi";
+}
+console.log(sayHi);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q20" value="A"> <label>A) <code>"Hi"</code></label></label>
+        <label class="option"><input type="radio" name="q20" value="B"> <label>B) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q20" value="C"> <label>C) The function definition</label></label>
+        <label class="option"><input type="radio" name="q20" value="D"> <label>D) <code>ReferenceError</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q21</span></h3>
+      <p>What is the output?</p>
+      <pre>const add = (a, b) => a + b;
+console.log(add(2, 3));</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q21" value="A"> <label>A) 5</label></label>
+        <label class="option"><input type="radio" name="q21" value="B"> <label>B) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q21" value="C"> <label>C) NaN</label></label>
+        <label class="option"><input type="radio" name="q21" value="D"> <label>D) 23</label></label>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q22</span></h3>
+      <p>Which is NOT a valid function declaration?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q22" value="A"> <label>A) <code>function foo() {}</code></label></label>
+        <label class="option"><input type="radio" name="q22" value="B"> <label>B) <code>const foo = function() {};</code></label></label>
+        <label class="option"><input type="radio" name="q22" value="C"> <label>C) <code>const foo = () => {};</code></label></label>
+        <label class="option"><input type="radio" name="q22" value="D"> <label>D) <code>function () {}</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q23</span></h3>
+      <p>What is the output?</p>
+      <pre>function greet(name = "Guest") {
+  return "Hello, " + name;
+}
+console.log(greet());</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q23" value="A"> <label>A) Hello, Guest</label></label>
+        <label class="option"><input type="radio" name="q23" value="B"> <label>B) Hello, undefined</label></label>
+        <label class="option"><input type="radio" name="q23" value="C"> <label>C) Hello, null</label></label>
+        <label class="option"><input type="radio" name="q23" value="D"> <label>D) TypeError</label></label>
+      </div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q24</span></h3>
+      <p>What is the result?</p>
+      <pre>const double = x => x * 2;
+console.log([1, 2, 3].map(double));</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q24" value="A"> <label>A) [2, 4, 6]</label></label>
+        <label class="option"><input type="radio" name="q24" value="B"> <label>B) [1, 2, 3]</label></label>
+        <label class="option"><input type="radio" name="q24" value="C"> <label>C) [1, 4, 9]</label></label>
+        <label class="option"><input type="radio" name="q24" value="D"> <label>D) [2, 4, 6, 8]</label></label>
+      </div>
+    </div>
+
+    <!-- Q25 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q25</span></h3>
+      <p>What does <code>Array.isArray([])</code> return?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q25" value="A"> <label>A) <code>true</code></label></label>
+        <label class="option"><input type="radio" name="q25" value="B"> <label>B) <code>false</code></label></label>
+        <label class="option"><input type="radio" name="q25" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q25" value="D"> <label>D) <code>"object"</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q26 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q26</span></h3>
+      <p>What is the output?</p>
+      <pre>const arr = [1, 2, 3];
+console.log(arr.push(4));</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q26" value="A"> <label>A) 4</label></label>
+        <label class="option"><input type="radio" name="q26" value="B"> <label>B) [1, 2, 3, 4]</label></label>
+        <label class="option"><input type="radio" name="q26" value="C"> <label>C) 3</label></label>
+        <label class="option"><input type="radio" name="q26" value="D"> <label>D) <code>undefined</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q27 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q27</span></h3>
+      <p>What is the result?</p>
+      <pre>console.log([1, 2, 3].slice(1, 3));</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q27" value="A"> <label>A) [1, 2]</label></label>
+        <label class="option"><input type="radio" name="q27" value="B"> <label>B) [2, 3]</label></label>
+        <label class="option"><input type="radio" name="q27" value="C"> <label>C) [2]</label></label>
+        <label class="option"><input type="radio" name="q27" value="D"> <label>D) [3]</label></label>
+      </div>
+    </div>
+
+    <!-- Q28 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q28</span></h3>
+      <p>What is the output?</p>
+      <pre>const arr = [5, 6, 7];
+arr.pop();
+console.log(arr);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q28" value="A"> <label>A) [5, 6]</label></label>
+        <label class="option"><input type="radio" name="q28" value="B"> <label>B) [6, 7]</label></label>
+        <label class="option"><input type="radio" name="q28" value="C"> <label>C) [5, 7]</label></label>
+        <label class="option"><input type="radio" name="q28" value="D"> <label>D) [5, 6, 7]</label></label>
+      </div>
+    </div>
+
+    <!-- Q29 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q29</span></h3>
+      <p>Which method joins array elements into a string?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q29" value="A"> <label>A) <code>concat()</code></label></label>
+        <label class="option"><input type="radio" name="q29" value="B"> <label>B) <code>join()</code></label></label>
+        <label class="option"><input type="radio" name="q29" value="C"> <label>C) <code>split()</code></label></label>
+        <label class="option"><input type="radio" name="q29" value="D"> <label>D) <code>toString()</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q30 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q30</span></h3>
+      <p>What is the result?</p>
+      <pre>console.log([10, 20, 30].indexOf(20));</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q30" value="A"> <label>A) 0</label></label>
+        <label class="option"><input type="radio" name="q30" value="B"> <label>B) 1</label></label>
+        <label class="option"><input type="radio" name="q30" value="C"> <label>C) 2</label></label>
+        <label class="option"><input type="radio" name="q30" value="D"> <label>D) 20</label></label>
+      </div>
+    </div>
+
+    <!-- Q31 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q31</span></h3>
+      <p>How do you access a property named <code>name</code> on an object <code>user</code>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q31" value="A"> <label>A) <code>user.name</code></label></label>
+        <label class="option"><input type="radio" name="q31" value="B"> <label>B) <code>user["name"]</code></label></label>
+        <label class="option"><input type="radio" name="q31" value="C"> <label>C) Both A and B</label></label>
+        <label class="option"><input type="radio" name="q31" value="D"> <label>D) <code>user->name</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q32 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q32</span></h3>
+      <p>What is the output?</p>
+      <pre>const obj = { x: 1, y: 2 };
+delete obj.x;
+console.log(obj);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q32" value="A"> <label>A) { x: 1, y: 2 }</label></label>
+        <label class="option"><input type="radio" name="q32" value="B"> <label>B) { y: 2 }</label></label>
+        <label class="option"><input type="radio" name="q32" value="C"> <label>C) { x: undefined, y: 2 }</label></label>
+        <label class="option"><input type="radio" name="q32" value="D"> <label>D) { x: 0, y: 2 }</label></label>
+      </div>
+    </div>
+
+    <!-- Q33 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q33</span></h3>
+      <p>What does <code>Object.freeze(obj)</code> do?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q33" value="A"> <label>A) Prevents adding new properties but allows modification.</label></label>
+        <label class="option"><input type="radio" name="q33" value="B"> <label>B) Makes the object immutable.</label></label>
+        <label class="option"><input type="radio" name="q33" value="C"> <label>C) Deletes all properties.</label></label>
+        <label class="option"><input type="radio" name="q33" value="D"> <label>D) Converts the object to a string.</label></label>
+      </div>
+    </div>
+
+    <!-- Q34 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q34</span></h3>
+      <p>What is the result?</p>
+      <pre>const a = { n: 1 };
+const b = a;
+b.n = 2;
+console.log(a.n);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q34" value="A"> <label>A) 1</label></label>
+        <label class="option"><input type="radio" name="q34" value="B"> <label>B) 2</label></label>
+        <label class="option"><input type="radio" name="q34" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q34" value="D"> <label>D) <code>null</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q35 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q35</span></h3>
+      <p>Which method returns an array of [key, value] pairs?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q35" value="A"> <label>A) <code>Object.keys()</code></label></label>
+        <label class="option"><input type="radio" name="q35" value="B"> <label>B) <code>Object.values()</code></label></label>
+        <label class="option"><input type="radio" name="q35" value="C"> <label>C) <code>Object.entries()</code></label></label>
+        <label class="option"><input type="radio" name="q35" value="D"> <label>D) <code>Object.pairs()</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q36 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q36</span></h3>
+      <p>What is the output?</p>
+      <pre>const obj = { a: { b: 2 } };
+console.log(obj.a.b);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q36" value="A"> <label>A) 2</label></label>
+        <label class="option"><input type="radio" name="q36" value="B"> <label>B) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q36" value="C"> <label>C) <code>{ b: 2 }</code></label></label>
+        <label class="option"><input type="radio" name="q36" value="D"> <label>D) TypeError</label></label>
+      </div>
+    </div>
+
+    <!-- Q37 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q37</span></h3>
+      <p>What is the result of <code>JSON.parse(JSON.stringify({ d: new Date() }))</code>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q37" value="A"> <label>A) Same Date object</label></label>
+        <label class="option"><input type="radio" name="q37" value="B"> <label>B) Date as string</label></label>
+        <label class="option"><input type="radio" name="q37" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q37" value="D"> <label>D) Throws an error</label></label>
+      </div>
+    </div>
+
+    <!-- Q38 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q38</span></h3>
+      <p>Which of these is a shallow copy of an object?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q38" value="A"> <label>A) <code>JSON.parse(JSON.stringify(obj))</code></label></label>
+        <label class="option"><input type="radio" name="q38" value="B"> <label>B) <code>{ ...obj }</code></label></label>
+        <label class="option"><input type="radio" name="q38" value="C"> <label>C) <code>structuredClone(obj)</code></label></label>
+        <label class="option"><input type="radio" name="q38" value="D"> <label>D) Deep copy</label></label>
+      </div>
+    </div>
+
+    <!-- Q39 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q39</span></h3>
+      <p>What is the result?</p>
+      <pre>const obj = {};
+obj[1] = "one";
+obj["1"] = "ONE";
+console.log(obj[1]);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q39" value="A"> <label>A) "one"</label></label>
+        <label class="option"><input type="radio" name="q39" value="B"> <label>B) "ONE"</label></label>
+        <label class="option"><input type="radio" name="q39" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q39" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- Q40 -->
+    <div class="question-card">
+      <h3><span class="badge">Objects</span> <span class="q-counter">Q40</span></h3>
+      <p>How do you create an object with no prototype?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q40" value="A"> <label>A) <code>{}</code></label></label>
+        <label class="option"><input type="radio" name="q40" value="B"> <label>B) <code>Object.create(null)</code></label></label>
+        <label class="option"><input type="radio" name="q40" value="C"> <label>C) <code>new Object()</code></label></label>
+        <label class="option"><input type="radio" name="q40" value="D"> <label>D) <code>Object.prototype</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q41 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q41</span></h3>
+      <p>What is the output?</p>
+      <pre>const arr = [1, 2, 3];
+const result = arr.map(x => x * 2).filter(x => x > 2);
+console.log(result);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q41" value="A"> <label>A) [2, 4, 6]</label></label>
+        <label class="option"><input type="radio" name="q41" value="B"> <label>B) [4, 6]</label></label>
+        <label class="option"><input type="radio" name="q41" value="C"> <label>C) [2, 4]</label></label>
+        <label class="option"><input type="radio" name="q41" value="D"> <label>D) [6]</label></label>
+      </div>
+    </div>
+
+    <!-- Q42 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q42</span></h3>
+      <p>What does <code>Array.from("hello")</code> return?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q42" value="A"> <label>A) <code>"hello"</code></label></label>
+        <label class="option"><input type="radio" name="q42" value="B"> <label>B) <code>["h","e","l","l","o"]</code></label></label>
+        <label class="option"><input type="radio" name="q42" value="C"> <label>C) <code>["hello"]</code></label></label>
+        <label class="option"><input type="radio" name="q42" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- Q43 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q43</span></h3>
+      <p>What is the output?</p>
+      <pre>console.log([1, 2, 3].reduce((a, b) => a + b, 10));</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q43" value="A"> <label>A) 6</label></label>
+        <label class="option"><input type="radio" name="q43" value="B"> <label>B) 16</label></label>
+        <label class="option"><input type="radio" name="q43" value="C"> <label>C) 10</label></label>
+        <label class="option"><input type="radio" name="q43" value="D"> <label>D) <code>undefined</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q44 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q44</span></h3>
+      <p>What is the result?</p>
+      <pre>const arr = [3, 1, 4, 1, 5];
+console.log(arr.sort());</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q44" value="A"> <label>A) [1, 1, 3, 4, 5]</label></label>
+        <label class="option"><input type="radio" name="q44" value="B"> <label>B) [5, 4, 3, 1, 1]</label></label>
+        <label class="option"><input type="radio" name="q44" value="C"> <label>C) [1, 1, 3, 4, 5] (but sorted as strings)</label></label>
+        <label class="option"><input type="radio" name="q44" value="D"> <label>D) [1, 1, 3, 4, 5] (numerical)</label></label>
+      </div>
+    </div>
+
+    <!-- Q45 -->
+    <div class="question-card">
+      <h3><span class="badge">Arrays</span> <span class="q-counter">Q45</span></h3>
+      <p>What does <code>arr.some()</code> return?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q45" value="A"> <label>A) true if any element passes the test</label></label>
+        <label class="option"><input type="radio" name="q45" value="B"> <label>B) true if all elements pass the test</label></label>
+        <label class="option"><input type="radio" name="q45" value="C"> <label>C) a new array</label></label>
+        <label class="option"><input type="radio" name="q45" value="D"> <label>D) the first matching element</label></label>
+      </div>
+    </div>
+
+    <!-- Q46 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q46</span></h3>
+      <p>What is a closure?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q46" value="A"> <label>A) A function that has access to its outer scope even after the outer function returns.</label></label>
+        <label class="option"><input type="radio" name="q46" value="B"> <label>B) A function that closes the browser.</label></label>
+        <label class="option"><input type="radio" name="q46" value="C"> <label>C) A function that only runs once.</label></label>
+        <label class="option"><input type="radio" name="q46" value="D"> <label>D) A function with no parameters.</label></label>
+      </div>
+    </div>
+
+    <!-- Q47 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q47</span></h3>
+      <p>What does <code>bind()</code> do?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q47" value="A"> <label>A) Creates a new function with a fixed <code>this</code> context.</label></label>
+        <label class="option"><input type="radio" name="q47" value="B"> <label>B) Calls a function immediately.</label></label>
+        <label class="option"><input type="radio" name="q47" value="C"> <label>C) Binds two functions together.</label></label>
+        <label class="option"><input type="radio" name="q47" value="D"> <label>D) Freezes the function.</label></label>
+      </div>
+    </div>
+
+    <!-- Q48 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q48</span></h3>
+      <p>What is the output?</p>
+      <pre>function foo() {
+  return arguments.length;
+}
+console.log(foo(1, 2, 3));</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q48" value="A"> <label>A) 0</label></label>
+        <label class="option"><input type="radio" name="q48" value="B"> <label>B) 3</label></label>
+        <label class="option"><input type="radio" name="q48" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q48" value="D"> <label>D) <code>arguments</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q49 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q49</span></h3>
+      <p>What is a higher-order function?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q49" value="A"> <label>A) A function that takes another function as an argument or returns one.</label></label>
+        <label class="option"><input type="radio" name="q49" value="B"> <label>B) A function with more than two parameters.</label></label>
+        <label class="option"><input type="radio" name="q49" value="C"> <label>C) A function declared with <code>const</code>.</label></label>
+        <label class="option"><input type="radio" name="q49" value="D"> <label>D) A function with a <code>return</code> statement.</label></label>
+      </div>
+    </div>
+
+    <!-- Q50 -->
+    <div class="question-card">
+      <h3><span class="badge">Functions</span> <span class="q-counter">Q50</span></h3>
+      <p>What is the result of <code>typeof (() => {})</code>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q50" value="A"> <label>A) <code>"function"</code></label></label>
+        <label class="option"><input type="radio" name="q50" value="B"> <label>B) <code>"arrow"</code></label></label>
+        <label class="option"><input type="radio" name="q50" value="C"> <label>C) <code>"object"</code></label></label>
+        <label class="option"><input type="radio" name="q50" value="D"> <label>D) <code>"undefined"</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q51 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q51</span></h3>
+      <p>What is the difference between <code>let</code> and <code>var</code>?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q51" value="A"> <label>A) <code>let</code> is block-scoped, <code>var</code> is function-scoped.</label></label>
+        <label class="option"><input type="radio" name="q51" value="B"> <label>B) <code>var</code> is block-scoped, <code>let</code> is function-scoped.</label></label>
+        <label class="option"><input type="radio" name="q51" value="C"> <label>C) Both are block-scoped.</label></label>
+        <label class="option"><input type="radio" name="q51" value="D"> <label>D) Both are function-scoped.</label></label>
+      </div>
+    </div>
+
+    <!-- Q52 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q52</span></h3>
+      <p>What is the output?</p>
+      <pre>var a = 1;
+{
+  var a = 2;
+}
+console.log(a);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q52" value="A"> <label>A) 1</label></label>
+        <label class="option"><input type="radio" name="q52" value="B"> <label>B) 2</label></label>
+        <label class="option"><input type="radio" name="q52" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q52" value="D"> <label>D) <code>null</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q53 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q53</span></h3>
+      <p>Which of these is NOT a primitive type?</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q53" value="A"> <label>A) <code>string</code></label></label>
+        <label class="option"><input type="radio" name="q53" value="B"> <label>B) <code>number</code></label></label>
+        <label class="option"><input type="radio" name="q53" value="C"> <label>C) <code>object</code></label></label>
+        <label class="option"><input type="radio" name="q53" value="D"> <label>D) <code>boolean</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q54 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q54</span></h3>
+      <p>What is the output?</p>
+      <pre>let x;
+console.log(x);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q54" value="A"> <label>A) <code>null</code></label></label>
+        <label class="option"><input type="radio" name="q54" value="B"> <label>B) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q54" value="C"> <label>C) 0</label></label>
+        <label class="option"><input type="radio" name="q54" value="D"> <label>D) ReferenceError</label></label>
+      </div>
+    </div>
+
+    <!-- Q55 -->
+    <div class="question-card">
+      <h3><span class="badge">Variables</span> <span class="q-counter">Q55</span></h3>
+      <p>What is the result?</p>
+      <pre>console.log(0.1 + 0.2 === 0.3);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q55" value="A"> <label>A) true</label></label>
+        <label class="option"><input type="radio" name="q55" value="B"> <label>B) false</label></label>
+        <label class="option"><input type="radio" name="q55" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q55" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- Q56 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q56</span></h3>
+      <p>What is the output?</p>
+      <pre>const obj = { a: 1 };
+const arr = [obj, obj];
+arr[0].a = 2;
+console.log(arr[1].a);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q56" value="A"> <label>A) 1</label></label>
+        <label class="option"><input type="radio" name="q56" value="B"> <label>B) 2</label></label>
+        <label class="option"><input type="radio" name="q56" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q56" value="D"> <label>D) <code>null</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q57 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q57</span></h3>
+      <p>What is the result?</p>
+      <pre>const arr = [1, 2, 3];
+const [a, ...b] = arr;
+console.log(a, b);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q57" value="A"> <label>A) 1 [2, 3]</label></label>
+        <label class="option"><input type="radio" name="q57" value="B"> <label>B) [1] [2, 3]</label></label>
+        <label class="option"><input type="radio" name="q57" value="C"> <label>C) 1 2</label></label>
+        <label class="option"><input type="radio" name="q57" value="D"> <label>D) 1 [2]</label></label>
+      </div>
+    </div>
+
+    <!-- Q58 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q58</span></h3>
+      <p>What is the output?</p>
+      <pre>const obj = { a: 1, b: 2 };
+for (let key in obj) {
+  console.log(key);
+}</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q58" value="A"> <label>A) 1, 2</label></label>
+        <label class="option"><input type="radio" name="q58" value="B"> <label>B) a, b</label></label>
+        <label class="option"><input type="radio" name="q58" value="C"> <label>C) [a, b]</label></label>
+        <label class="option"><input type="radio" name="q58" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- Q59 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q59</span></h3>
+      <p>What is the result?</p>
+      <pre>const arr = [1, 2, 3];
+for (let i in arr) {
+  console.log(typeof i);
+}</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q59" value="A"> <label>A) <code>number</code></label></label>
+        <label class="option"><input type="radio" name="q59" value="B"> <label>B) <code>string</code></label></label>
+        <label class="option"><input type="radio" name="q59" value="C"> <label>C) <code>object</code></label></label>
+        <label class="option"><input type="radio" name="q59" value="D"> <label>D) <code>undefined</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q60 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q60</span></h3>
+      <p>What is the output?</p>
+      <pre>console.log(typeof [] === typeof {});</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q60" value="A"> <label>A) true</label></label>
+        <label class="option"><input type="radio" name="q60" value="B"> <label>B) false</label></label>
+        <label class="option"><input type="radio" name="q60" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q60" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- Q61 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q61</span></h3>
+      <p>What is the output?</p>
+      <pre>console.log([1, 2, 3] + [4, 5, 6]);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q61" value="A"> <label>A) [1, 2, 3, 4, 5, 6]</label></label>
+        <label class="option"><input type="radio" name="q61" value="B"> <label>B) "1,2,34,5,6"</label></label>
+        <label class="option"><input type="radio" name="q61" value="C"> <label>C) "1,2,3,4,5,6"</label></label>
+        <label class="option"><input type="radio" name="q61" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- Q62 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q62</span></h3>
+      <p>What is the result?</p>
+      <pre>const a = [1, 2, 3];
+const b = a;
+b.push(4);
+console.log(a.length);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q62" value="A"> <label>A) 3</label></label>
+        <label class="option"><input type="radio" name="q62" value="B"> <label>B) 4</label></label>
+        <label class="option"><input type="radio" name="q62" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q62" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- Q63 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q63</span></h3>
+      <p>What is the output?</p>
+      <pre>console.log(!!"false");</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q63" value="A"> <label>A) true</label></label>
+        <label class="option"><input type="radio" name="q63" value="B"> <label>B) false</label></label>
+        <label class="option"><input type="radio" name="q63" value="C"> <label>C) "false"</label></label>
+        <label class="option"><input type="radio" name="q63" value="D"> <label>D) <code>undefined</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q64 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q64</span></h3>
+      <p>What is the result?</p>
+      <pre>let x = 10;
+function foo() {
+  console.log(x);
+  let x = 20;
+}
+foo();</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q64" value="A"> <label>A) 10</label></label>
+        <label class="option"><input type="radio" name="q64" value="B"> <label>B) 20</label></label>
+        <label class="option"><input type="radio" name="q64" value="C"> <label>C) ReferenceError</label></label>
+        <label class="option"><input type="radio" name="q64" value="D"> <label>D) <code>undefined</code></label></label>
+      </div>
+    </div>
+
+    <!-- Q65 -->
+    <div class="question-card">
+      <h3><span class="badge">Mixed</span> <span class="q-counter">Q65</span></h3>
+      <p>What is the output?</p>
+      <pre>const obj = Object.freeze({ a: 1 });
+obj.a = 2;
+console.log(obj.a);</pre>
+      <div class="options">
+        <label class="option"><input type="radio" name="q65" value="A"> <label>A) 1</label></label>
+        <label class="option"><input type="radio" name="q65" value="B"> <label>B) 2</label></label>
+        <label class="option"><input type="radio" name="q65" value="C"> <label>C) <code>undefined</code></label></label>
+        <label class="option"><input type="radio" name="q65" value="D"> <label>D) Error</label></label>
+      </div>
+    </div>
+
+    <!-- ========== PRACTICAL SECTION ========== -->
+    <div style="margin: 24px 0 12px; font-weight: 600; color: #0f6b4b; border-top: 2px dashed #b0c8e0; padding-top: 16px;">
+      🧪 Part B — Practical Coding (8 questions, 3 points each)
+    </div>
+
+    <!-- P1 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P1</span> — Sum of array</h3>
+      <p>Write a function <code>sumArray(arr)</code> that returns the sum of all numbers in an array.</p>
+      <textarea class="code-editor" id="code-p1" placeholder="function sumArray(arr) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p1" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p1">Not tested</span>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P2</span> — Reverse a string</h3>
+      <p>Write a function <code>reverseString(str)</code> that returns the reversed string.</p>
+      <textarea class="code-editor" id="code-p2" placeholder="function reverseString(str) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p2" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p2">Not tested</span>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P3</span> — Object keys</h3>
+      <p>Write a function <code>getKeys(obj)</code> that returns an array of the object's keys.</p>
+      <textarea class="code-editor" id="code-p3" placeholder="function getKeys(obj) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p3" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p3">Not tested</span>
+      </div>
+    </div>
+
+    <!-- P4 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P4</span> — Filter even numbers</h3>
+      <p>Write a function <code>filterEven(arr)</code> that returns a new array with only even numbers.</p>
+      <textarea class="code-editor" id="code-p4" placeholder="function filterEven(arr) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p4" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p4">Not tested</span>
+      </div>
+    </div>
+
+    <!-- P5 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P5</span> — Count vowels</h3>
+      <p>Write a function <code>countVowels(str)</code> that returns the number of vowels (a, e, i, o, u) in a string.</p>
+      <textarea class="code-editor" id="code-p5" placeholder="function countVowels(str) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p5" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p5">Not tested</span>
+      </div>
+    </div>
+
+    <!-- P6 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P6</span> — Find max</h3>
+      <p>Write a function <code>findMax(arr)</code> that returns the maximum number in an array.</p>
+      <textarea class="code-editor" id="code-p6" placeholder="function findMax(arr) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p6" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p6">Not tested</span>
+      </div>
+    </div>
+
+    <!-- P7 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P7</span> — Object values</h3>
+      <p>Write a function <code>getValues(obj)</code> that returns an array of the object's values.</p>
+      <textarea class="code-editor" id="code-p7" placeholder="function getValues(obj) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p7" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p7">Not tested</span>
+      </div>
+    </div>
+
+    <!-- P8 -->
+    <div class="question-card practical-card">
+      <h3><span class="badge practical">Practical</span> <span class="q-counter">P8</span> — Merge objects</h3>
+      <p>Write a function <code>mergeObjects(a, b)</code> that returns a new object with properties from both (b overrides a).</p>
+      <textarea class="code-editor" id="code-p8" placeholder="function mergeObjects(a, b) { ... }"></textarea>
+      <div class="practical-actions">
+        <button class="btn-sm" data-test="p8" type="button">▶ Run tests</button>
+        <span class="test-result" id="result-p8">Not tested</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-actions">
+    <div class="score-display" id="scoreDisplay">Not submitted</div>
+    <div>
+      <button class="btn btn-secondary" id="resetBtn" type="button">⟲ Reset</button>
+      <button class="btn" id="submitBtn" type="button">✅ Submit Exam</button>
+    </div>
+  </div>
+  <div id="resultPanel" class="result-panel hidden"></div>
+</div>
+
+<!-- ========== HIDDEN FORMSPREE FORM FOR GRADE SUBMISSION ========== -->
+<form id="gradeSubmissionForm" action="https://formspree.io/f/xkjjeeyv" method="POST" style="display:none;">
+  <input type="hidden" name="candidate_name" id="fsName">
+  <input type="hidden" name="candidate_email" id="fsEmail">
+  <input type="hidden" name="mcq_score" id="fsMcq">
+  <input type="hidden" name="practical_score" id="fsPractical">
+  <input type="hidden" name="total_score" id="fsTotal">
+  <input type="hidden" name="max_score" id="fsMax">
+  <input type="hidden" name="percentage" id="fsPercent">
+  <input type="hidden" name="submission_time" id="fsTime">
+  <input type="hidden" name="time_used_seconds" id="fsTimeUsed">
+  <input type="hidden" name="mcq_answers" id="fsMcqAnswers">
+  <input type="hidden" name="practical_code" id="fsPracticalCode">
+  <input type="hidden" name="exam_status" id="fsStatus">
+  <button type="submit">Send</button>
+</form>
+
+<script>
+  (function() {
+    // ---------- LOGIN ----------
+    const loginOverlay = document.getElementById('loginOverlay');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginName = document.getElementById('loginName');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginError = document.getElementById('loginError');
+    const examContainer = document.getElementById('examContainer');
+
+    let candidateName = '';
+    let candidateEmail = '';
+    let examStarted = false;
+
+    loginBtn.addEventListener('click', function() {
+      const name = loginName.value.trim();
+      const email = loginEmail.value.trim();
+      if (!name || !email || !email.includes('@') || !email.includes('.')) {
+        loginError.style.display = 'block';
+        return;
+      }
+      loginError.style.display = 'none';
+      candidateName = name;
+      candidateEmail = email;
+      loginOverlay.classList.add('hidden');
+      examContainer.classList.remove('hidden');
+      examStarted = true;
+      initExam();
+    });
+
+    [loginName, loginEmail].forEach(el => {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') loginBtn.click();
+      });
+    });
+
+    // ---------- EXAM CONFIG ----------
+    const examDuration = 2 * 60 * 60; // 2 hours in seconds
+    let timeLeft = examDuration;
+    let timerInterval = null;
+    let examActive = true;
+
+    const timerDisplay = document.getElementById('timerDisplay');
+    const antiCheatAlert = document.getElementById('antiCheatAlert');
+    const antiCheatStatus = document.getElementById('antiCheatStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const resultPanel = document.getElementById('resultPanel');
+
+    // MCQ correct answers (65 questions)
+    const correctMCQ = {
+      q1: 'A', q2: 'B', q3: 'B', q4: 'A', q5: 'B',
+      q6: 'C', q7: 'A', q8: 'D', q9: 'D', q10: 'C',
+      q11: 'B', q12: 'B', q13: 'C', q14: 'A', q15: 'A',
+      q16: 'A', q17: 'B', q18: 'C', q19: 'A', q20: 'C',
+      q21: 'A', q22: 'D', q23: 'A', q24: 'A', q25: 'A',
+      q26: 'A', q27: 'B', q28: 'A', q29: 'B', q30: 'B',
+      q31: 'C', q32: 'B', q33: 'B', q34: 'B', q35: 'C',
+      q36: 'A', q37: 'B', q38: 'B', q39: 'B', q40: 'B',
+      q41: 'B', q42: 'B', q43: 'B', q44: 'A', q45: 'A',
+      q46: 'A', q47: 'A', q48: 'B', q49: 'A', q50: 'A',
+      q51: 'A', q52: 'B', q53: 'C', q54: 'B', q55: 'B',
+      q56: 'B', q57: 'A', q58: 'B', q59: 'B', q60: 'A',
+      q61: 'C', q62: 'B', q63: 'A', q64: 'C', q65: 'A'
+    };
+
+    // Practical test definitions
+    const practicalTests = {
+      p1: { fnName: 'sumArray', tests: [
+        { input: [[1, 2, 3]], expected: 6 },
+        { input: [[-1, 0, 1]], expected: 0 },
+        { input: [[10]], expected: 10 }
+      ], points: 3 },
+      p2: { fnName: 'reverseString', tests: [
+        { input: ['hello'], expected: 'olleh' },
+        { input: ['abc'], expected: 'cba' },
+        { input: [''], expected: '' }
+      ], points: 3 },
+      p3: { fnName: 'getKeys', tests: [
+        { input: [{ a: 1, b: 2 }], expected: ['a', 'b'] },
+        { input: [{}], expected: [] }
+      ], points: 3 },
+      p4: { fnName: 'filterEven', tests: [
+        { input: [[1, 2, 3, 4, 5, 6]], expected: [2, 4, 6] },
+        { input: [[7, 9]], expected: [] }
+      ], points: 3 },
+      p5: { fnName: 'countVowels', tests: [
+        { input: ['hello'], expected: 2 },
+        { input: ['AEIOU'], expected: 5 },
+        { input: ['xyz'], expected: 0 }
+      ], points: 3 },
+      p6: { fnName: 'findMax', tests: [
+        { input: [[1, 5, 3]], expected: 5 },
+        { input: [[-10, -5, -20]], expected: -5 }
+      ], points: 3 },
+      p7: { fnName: 'getValues', tests: [
+        { input: [{ a: 1, b: 2 }], expected: [1, 2] },
+        { input: [{}], expected: [] }
+      ], points: 3 },
+      p8: { fnName: 'mergeObjects', tests: [
+        { input: [{ a: 1 }, { b: 2 }], expected: { a: 1, b: 2 } },
+        { input: [{ a: 1, b: 2 }, { b: 3, c: 4 }], expected: { a: 1, b: 3, c: 4 } }
+      ], points: 3 }
+    };
+
+    const practicalPassed = {
+      p1: false, p2: false, p3: false, p4: false,
+      p5: false, p6: false, p7: false, p8: false
+    };
+
+    // ---------- TIMER ----------
+    function formatTime(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimerDisplay() {
+      timerDisplay.textContent = formatTime(timeLeft);
+      if (timeLeft <= 300) timerDisplay.classList.add('warning');
+      else timerDisplay.classList.remove('warning');
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!examActive) return;
+        timeLeft -= 1;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+          timeLeft = 0;
+          updateTimerDisplay();
+          clearInterval(timerInterval);
+          timerInterval = null;
+          examActive = false;
+          autoSubmitOnTimeUp();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    }
+
+    function autoSubmitOnTimeUp() {
+      if (!examActive) return;
+      examActive = false;
+      stopTimer();
+      document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+      document.querySelectorAll('.code-editor').forEach(t => t.disabled = true);
+      document.querySelectorAll('button[data-test]').forEach(b => b.disabled = true);
+      submitBtn.disabled = true;
+      resetBtn.disabled = true;
+      scoreDisplay.textContent = '⏰ Time up!';
+      const result = calculateScore();
+      displayResult(result);
+      resultPanel.classList.remove('hidden');
+      resultPanel.innerHTML = `⏰ Time is up! Your score: ${result.totalScore} / ${result.maxScore} (MCQ: ${result.mcqScore}/${result.mcqTotal}, Practical: ${result.practicalScore}/${result.practicalTotal})`;
+      submitGradesToFormspree(result, 'timeout');
+    }
+
+    // ---------- ANTI-CHEAT ----------
+    function showAntiCheatWarning(message) {
+      antiCheatAlert.textContent = '⚠️ Anti-cheat: ' + message;
+      antiCheatAlert.style.display = 'block';
+      setTimeout(() => { antiCheatAlert.style.display = 'none'; }, 4000);
+    }
+
+    document.addEventListener('visibilitychange', function() {
+      if (!examActive) return;
+      if (document.hidden) {
+        showAntiCheatWarning('Tab switched or window minimized!');
+        antiCheatStatus.textContent = '🚨 Violation: tab hidden';
+        antiCheatStatus.style.background = '#fecaca';
+      } else {
+        antiCheatStatus.textContent = '🔒 Anti‑cheat active';
+        antiCheatStatus.style.background = '#fef9c3';
+      }
+    });
+
+    window.addEventListener('blur', function() {
+      if (!examActive) return;
+      showAntiCheatWarning('Window lost focus!');
+    });
+
+    document.addEventListener('contextmenu', function(e) {
+      if (examActive) { e.preventDefault(); showAntiCheatWarning('Right-click is disabled during the exam.'); }
+    });
+
+    document.addEventListener('copy', function(e) {
+      if (examActive) { e.preventDefault(); showAntiCheatWarning('Copying is disabled.'); }
+    });
+    document.addEventListener('cut', function(e) {
+      if (examActive) { e.preventDefault(); showAntiCheatWarning('Cutting is disabled.'); }
+    });
+    document.addEventListener('paste', function(e) {
+      if (examActive) { e.preventDefault(); showAntiCheatWarning('Pasting is disabled.'); }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (!examActive) return;
+      if (
+        (e.ctrlKey && e.key === 'u') ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.key === 'F12')
+      ) {
+        e.preventDefault();
+        showAntiCheatWarning('Developer tools shortcuts are blocked.');
+      }
+    });
+
+    // ---------- PRACTICAL TEST RUNNER ----------
+    function runPracticalTest(pId) {
+      const textarea = document.getElementById(`code-${pId}`);
+      const resultSpan = document.getElementById(`result-${pId}`);
+      if (!textarea || !resultSpan) return;
+      const code = textarea.value.trim();
+      const testDef = practicalTests[pId];
+      if (!testDef) return;
+      const fnName = testDef.fnName;
+
+      if (!code.includes(`function ${fnName}`) && !code.includes(`${fnName} =`) && !code.includes(`${fnName}=`)) {
+        resultSpan.textContent = `❌ Function "${fnName}" not found.`;
+        resultSpan.className = 'test-result fail';
+        practicalPassed[pId] = false;
+        return;
+      }
+
+      let userFunction;
+      try {
+        const factory = new Function(`
+          ${code}
+          return typeof ${fnName} === 'function' ? ${fnName} : undefined;
+        `);
+        userFunction = factory();
+        if (typeof userFunction !== 'function') {
+          resultSpan.textContent = `❌ "${fnName}" is not a function.`;
+          resultSpan.className = 'test-result fail';
+          practicalPassed[pId] = false;
+          return;
+        }
+      } catch (e) {
+        resultSpan.textContent = `❌ Syntax error: ${e.message}`;
+        resultSpan.className = 'test-result fail';
+        practicalPassed[pId] = false;
+        return;
+      }
+
+      let allPassed = true;
+      let errorMsg = '';
+      for (const test of testDef.tests) {
+        try {
+          const args = test.input.map(arg => JSON.parse(JSON.stringify(arg)));
+          const result = userFunction(...args);
+          const resultStr = JSON.stringify(result);
+          const expectedStr = JSON.stringify(test.expected);
+          if (resultStr !== expectedStr) {
+            allPassed = false;
+            errorMsg = `Expected ${expectedStr}, got ${resultStr}`;
+            break;
+          }
+        } catch (e) {
+          allPassed = false;
+          errorMsg = `Runtime error: ${e.message}`;
+          break;
+        }
+      }
+
+      if (allPassed) {
+        resultSpan.textContent = `✅ All tests passed! (+${testDef.points} pts)`;
+        resultSpan.className = 'test-result pass';
+        practicalPassed[pId] = true;
+      } else {
+        resultSpan.textContent = `❌ ${errorMsg}`;
+        resultSpan.className = 'test-result fail';
+        practicalPassed[pId] = false;
+      }
+    }
+
+    document.querySelectorAll('button[data-test]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (!examActive) return;
+        runPracticalTest(this.dataset.test);
+      });
+    });
+
+    // ---------- SCORING ----------
+    function calculateScore() {
+      let mcqScore = 0;
+      const mcqTotal = Object.keys(correctMCQ).length;
+      for (let q in correctMCQ) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (selected && selected.value === correctMCQ[q]) mcqScore++;
+      }
+
+      let practicalScore = 0;
+      let practicalTotal = 0;
+      for (let pId in practicalTests) {
+        practicalTotal += practicalTests[pId].points;
+        if (practicalPassed[pId]) practicalScore += practicalTests[pId].points;
+      }
+
+      return { mcqScore, mcqTotal, practicalScore, practicalTotal,
+        totalScore: mcqScore + practicalScore,
+        maxScore: mcqTotal + practicalTotal };
+    }
+
+    function displayResult(result) {
+      resultPanel.classList.remove('hidden');
+      resultPanel.innerHTML = `📊 Your score: ${result.totalScore} / ${result.maxScore} (${Math.round((result.totalScore/result.maxScore)*100)}%)<br>
+        <span style="font-size:0.95rem; font-weight:500;">MCQ: ${result.mcqScore}/${result.mcqTotal} &nbsp;|&nbsp; Practical: ${result.practicalScore}/${result.practicalTotal}</span>`;
+      scoreDisplay.textContent = `Score: ${result.totalScore}/${result.maxScore}`;
+    }
+
+    // ---------- FORMSPREE GRADE SUBMISSION ----------
+    function collectMcqAnswers() {
+      const answers = {};
+      for (let q in correctMCQ) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        answers[q] = selected ? selected.value : 'unanswered';
+      }
+      return answers;
+    }
+
+    function collectPracticalCode() {
+      const code = {};
+      for (let pId in practicalTests) {
+        const ta = document.getElementById(`code-${pId}`);
+        code[pId] = ta ? ta.value.trim() : '';
+      }
+      return code;
+    }
+
+    function submitGradesToFormspree(result, status) {
+      // Fill hidden form fields
+      document.getElementById('fsName').value = candidateName;
+      document.getElementById('fsEmail').value = candidateEmail;
+      document.getElementById('fsMcq').value = `${result.mcqScore}/${result.mcqTotal}`;
+      document.getElementById('fsPractical').value = `${result.practicalScore}/${result.practicalTotal}`;
+      document.getElementById('fsTotal').value = `${result.totalScore}/${result.maxScore}`;
+      document.getElementById('fsMax').value = result.maxScore;
+      document.getElementById('fsPercent').value = Math.round((result.totalScore / result.maxScore) * 100) + '%';
+      document.getElementById('fsTime').value = new Date().toISOString();
+      document.getElementById('fsTimeUsed').value = examDuration - timeLeft;
+      document.getElementById('fsMcqAnswers').value = JSON.stringify(collectMcqAnswers());
+      document.getElementById('fsPracticalCode').value = JSON.stringify(collectPracticalCode());
+      document.getElementById('fsStatus').value = status;
+
+      // Submit the form via fetch (AJAX) to avoid page navigation
+      const form = document.getElementById('gradeSubmissionForm');
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (!response.ok) {
+          console.warn('Formspree submission failed:', response.status);
+        }
+      }).catch(err => {
+        console.warn('Formspree network error:', err);
+      });
+    }
+
+    // ---------- SUBMIT / RESET ----------
+    function handleSubmit() {
+      if (!examActive) { alert('Exam is no longer active.'); return; }
+      examActive = false;
+      stopTimer();
+      document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+      document.querySelectorAll('.code-editor').forEach(t => t.disabled = true);
+      document.querySelectorAll('button[data-test]').forEach(b => b.disabled = true);
+      submitBtn.disabled = true;
+      resetBtn.disabled = true;
+      const result = calculateScore();
+      displayResult(result);
+      antiCheatStatus.textContent = '✅ Exam submitted';
+      antiCheatStatus.style.background = '#bbf7d0';
+      submitGradesToFormspree(result, 'submitted');
+      resultPanel.innerHTML += '<br><span style="font-size:0.9rem;font-weight:500;">📧 Grades sent to instructor.</span>';
+    }
+
+    function resetExam() {
+      stopTimer();
+      timeLeft = examDuration;
+      updateTimerDisplay();
+      examActive = true;
+      document.querySelectorAll('input[type="radio"]').forEach(r => {
+        r.disabled = false;
+        r.checked = false;
+      });
+      document.querySelectorAll('.code-editor').forEach(t => {
+        t.disabled = false;
+        t.value = '';
+      });
+      document.querySelectorAll('button[data-test]').forEach(b => b.disabled = false);
+      for (let pId in practicalPassed) {
+        practicalPassed[pId] = false;
+        const resultSpan = document.getElementById(`result-${pId}`);
+        if (resultSpan) { resultSpan.textContent = 'Not tested'; resultSpan.className = 'test-result'; }
+      }
+      submitBtn.disabled = false;
+      resetBtn.disabled = false;
+      resultPanel.classList.add('hidden');
+      resultPanel.innerHTML = '';
+      scoreDisplay.textContent = 'Not submitted';
+      antiCheatStatus.textContent = '🔒 Anti‑cheat active';
+      antiCheatStatus.style.background = '#fef9c3';
+      antiCheatAlert.style.display = 'none';
+      startTimer();
+    }
+
+    // ---------- INIT ----------
+    function initExam() {
+      updateTimerDisplay();
+      startTimer();
+      submitBtn.addEventListener('click', handleSubmit);
+      resetBtn.addEventListener('click', function() {
+        if (confirm('Reset the exam? All answers, code, and timer will restart.')) {
+          resetExam();
+        }
+      });
+    }
+
+    window.addEventListener('beforeunload', function(e) {
+      if (examStarted && examActive && loginOverlay.classList.contains('hidden')) {
+        e.preventDefault();
+        e.returnValue = 'Exam is still in progress. Are you sure?';
+        return e.returnValue;
+      }
+    });
+  })();
+</script>
+</body>
+</html>
